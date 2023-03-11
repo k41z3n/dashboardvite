@@ -1,9 +1,10 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 
-import Cookies from 'js-cookie'
+import { StorageSerializers, useStorage } from "@vueuse/core";
 
 const routes = [
     {
+        name:'home',
         path: "/",
         component: () => import("@/views/home/index.vue"),
         meta: {
@@ -12,6 +13,7 @@ const routes = [
         }
     },
     {
+        name:'about',
         path: "/about",
         component: () => import("@/views/about/index.vue"),
         meta: {
@@ -20,6 +22,7 @@ const routes = [
         }
     },
     {
+        name:'login',
         path: "/auth",
         component: () => import("@/components/login.vue"),
         meta: {
@@ -35,12 +38,12 @@ const router = createRouter({
 });
 
 
-
-
 router.beforeEach(async (to, from, next) => {
-    console.log(Cookies.get('Authorization'));
-    next()
-
+    const currentuser = useStorage('currentuser', null, undefined, { serializer: StorageSerializers.object })
+    
+    if (to.name !== 'login' && !currentuser.value) next({ name: 'Login' })
+    else if (to.name == 'login' && currentuser.value) next({name:from.name})
+    else next()
 })
 
 export default router;

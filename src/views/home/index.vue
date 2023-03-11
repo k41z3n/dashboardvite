@@ -5,6 +5,10 @@
       <p class="subtitle">Hero subtitle</p>
     </div>
   </section>
+  <widgets/>
 </template>
 
-<script setup></script>
+<script setup>
+import Widgets from './Widgets.vue';
+
+</script>

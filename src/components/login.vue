@@ -45,25 +45,27 @@
 import { reactive } from "vue";
 
 import { auth } from "@/api/auth";
+import { useRouter } from "vue-router";
+
+const router = useRouter()
 
 const form = reactive({
-  username: "",
-  password: "",
+  username: "ceptinel",
+  password: "hola",
 });
 
 const submit = async () => {
   try {
     const res = await auth.auth(form);
     console.log({ res });
+    router.replace('/')
   } catch (error) {
     console.log({ error });
   }
 };
 </script>
 <style>
-html {
-  background: #ebebeb;
-}
+
 .login {
   display: flex;
   flex-direction: row;
